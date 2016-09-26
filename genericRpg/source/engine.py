@@ -1,13 +1,10 @@
 from libraries import fileHandler
 
-class engine:
-	
-	fileHandler = fileHandler.fileHandler()
-
+class Engine:
+	def __init__(self):
+		pass
+	fh = fileHandler.FileHandler()
 	def run():
 		isRun = True
-
 		while isRun:
-
-			
-
+			pass
