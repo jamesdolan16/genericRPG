@@ -3,14 +3,12 @@
 #import engine
 from libraries import fileHandler
 
-#creating objects
+# creating objects
 
 #engine = engine.engine()
 
 def main():
-	
 	global fileHandler
-
 	fileHandler = fileHandler.fileHandler()
 
 main()
