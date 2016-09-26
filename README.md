@@ -1,1 +1,1 @@
-# genericRPG
+# GenericRPG
