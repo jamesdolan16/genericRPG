@@ -2,7 +2,7 @@
 
 import os, json
 
-class fileHandler:
+class FileHandler:
 	def __init__(self):
 		fnfMsg = ["File: ", " could not be found to open!"]	
 		
