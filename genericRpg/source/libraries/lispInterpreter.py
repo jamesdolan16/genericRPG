@@ -13,6 +13,7 @@ class LispInterpreter:
 			if script[0] == "echo":
 				print(script[1])
 			elif script[0] == "shell": # buggy bit
+				global shellF
 				shellF = True
 				while shellF:
 					shellScript = input("SHELL>")
