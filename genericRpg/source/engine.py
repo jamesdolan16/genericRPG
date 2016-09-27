@@ -1,9 +1,12 @@
-from libraries import fileHandler
+from libraries import fileHandler, lispInterpreter
 
 class Engine:
 	def __init__(self):
-	        fh = fileHandler.FileHandler()
-	def run():
-		isRun = True
-		while isRun:
-			pass
+		global fileH
+		fileH = fileHandler.FileHandler()
+		global inputP
+		inputP = lispInterpreter.LispInterpreter()
+
+	def run(self):
+		toLisp = input(">")
+		inputP.runScript(toLisp)
