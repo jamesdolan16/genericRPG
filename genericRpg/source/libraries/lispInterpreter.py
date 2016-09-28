@@ -4,22 +4,22 @@ class LispInterpreter:
 
 	strToInterpret = ""
 	scriptList = []
+	
+	def __init__(self):
+		self.shellF = False
 
 	def parser(self, scripts):
-		global shellF
-		shellF = False
 		for script in scripts:
 			print(script)
-
 			if script[0] == "echo":
 				print(script[1])
 			elif script[0] == "shell": # buggy bit
-				shellF = True
-				while shellF:
+				self.shellF = True
+				while self.shellF:
 					shellScript = input("SHELL>")
 					self.runScript(shellScript)
 			elif script[0] == "shellQ":
-				shellF = False
+				self.shellF = False
 
 			else:
 				print("Keyword: ", script[0], " is not valid!")
