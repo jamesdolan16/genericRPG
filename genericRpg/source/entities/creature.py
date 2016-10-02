@@ -1,13 +1,13 @@
 import base
 
 class Enemy(base.Creature):
-    pass
+        pass
 
 class Character(base.Creature):
-    pass
+        pass
 
 class Player(Character):
-    pass
+        pass
 
 class NPC(Character):
-    pass
+        pass
