@@ -5,6 +5,8 @@ class Entity:
         self.li = li
         self.details = details
 
+#############################################################################
+
 class Item(Entity):
     def __init__(self, li, xPos, yPos, isStatic, itemType, inWorld = True,
                  **details):
@@ -29,20 +31,44 @@ class Item(Entity):
         else:
             li.runScript("echo Object not activatable;")
 
+    def equipArmour(self):
+        if itemType == "armour":
+            value = pickUp()
+            if not value == None:
+                return pickUp()
+
+#############################################################################
+
+def defaultArmour(li):
+    return Item(li, xPos = 0, yPos = 0, isStatic = False,
+                itemType = "armourBase", inWorld = False, armourList = [])    
+
 class Creature(Entity):
-    def __init__(self, li, xPos, yPos, maxHealth, health = -1, armour = 25,
-                 **details):
+    def __init__(self, li, xPos, yPos, maxHealth, health = -1,
+                 naturalArmour = 25, **details):
         super().__init__(li, xPos, yPos, details)
         self.maxHealth = maxHealth
         if health == -1:
             self.health = maxHealth
         else:
             self.health = health
-        self.armour = armour
+        if "armour" in self.details:
+            try:
+                self.suitArmour = self.details["armour"].armourValue
+            except NameError:
+                self.suitArmour = 0
+            originalArmour = self.details["armour"]
+            details["armour"] = defaultArmour(self.li)
+            details["armour"].armourList.append(originalArmour)
+        else:
+            self.suitArmour = 0
+            details["armour"] = defaultArmour(self.li)
+        self.naturalArmour = naturalArmour
+        self.totalArmour = self.naturalArmour + self.suitArmour
         self.alive = True
 
     def receiveDamage(self, power, piercing):
-        damage = power / (1 + (self.armour / 100) / piercing)
+        damage = power / (1 + (self.totalArmour / 100) / piercing)
         self.changeHealth(damage)
 
     def changeHealth(self, amount):
@@ -54,8 +80,13 @@ class Creature(Entity):
             self.li.runScript(
                 "echo Creature dead - it cannot act or be acted on;")
 
-
-
+    def equipArmour(self, armour):
+        if armour.armourType in self.details["armour"].armourList:
+            self.li.runScript(
+                "echo " + armour.armourType + " already equipped;")
+        else:
+            self.details["armour"].armourList.append(armour)
+            self.details["armour"].armourValue += armour.armourValue
 
 
 
