@@ -58,11 +58,11 @@ class Creature(Entity):
             except NameError:
                 self.suitArmour = 0
             originalArmour = self.details["armour"]
-            details["armour"] = defaultArmour(self.li)
-            details["armour"].armourList.append(originalArmour)
+            self.details["armour"] = defaultArmour(self.li)
+            self.details["armour"].armourList.append(originalArmour)
         else:
             self.suitArmour = 0
-            details["armour"] = defaultArmour(self.li)
+            self.details["armour"] = defaultArmour(self.li)
         self.naturalArmour = naturalArmour
         self.totalArmour = self.naturalArmour + self.suitArmour
         self.alive = True
@@ -81,13 +81,29 @@ class Creature(Entity):
                 "echo Creature dead - it cannot act or be acted on;")
 
     def equipArmour(self, armour):
-        if armour.armourType in self.details["armour"].armourList:
+        typeInArmour = False
+        for armourPiece in self.details["armour"].armourList:
+            if armourPiece.armourType == armour.armourType:
+                typeInArmour = True
+        if typeInArmour:
             self.li.runScript(
                 "echo " + armour.armourType + " already equipped;")
         else:
             self.details["armour"].armourList.append(armour)
             self.details["armour"].armourValue += armour.armourValue
 
+    def unequipArmour(self, armourType):
+        armourToUnequip = -1
+        for armourIndex in range(len(self.details["armour"].armourList)):
+            if self.details[
+                "armour"].armourList[armourIndex].armourType == armourType:
+                armourToUnequip = armourIndex
+        if armourToUnequip != -1:
+            del self.details["armour"].armourList[armourToUnequip]
+            return self
+        else:
+            return None
+        
 
 
 
